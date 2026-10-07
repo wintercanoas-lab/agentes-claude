@@ -1,0 +1,14 @@
+{
+  "name": "time-de-trafego-pago",
+  "version": "1.1.1",
+  "private": true,
+  "description": "Squad de agentes de IA para Meta Ads no Claude Code",
+  "scripts": {
+    "instalar": "node instalar.js",
+    "resumo": "node --env-file=.env scripts/resumo-operacao.js",
+    "criativos": "node --env-file=.env scripts/analise-criativos.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.0"
+  }
+}
