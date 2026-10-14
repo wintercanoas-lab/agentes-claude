@@ -27,3 +27,10 @@ Depois, dentro do Claude Code: `@traffic-analyst *analisar`
 
 O arquivo `.env` (com seu token) fica só na sua máquina e nunca é enviado ao GitHub.
 Guia completo: [LEIA-ME.md](LEIA-ME.md).
+
+### Usar direto no Claude na nuvem (sem instalar nada no computador)
+
+No menu do ambiente (barra de título da sessão) → **Editar**:
+1. **Variáveis de ambiente:** `META_ACCESS_TOKEN=<seu token>` e `META_AD_ACCOUNT_ID=act_<número>`
+2. **Acesso à rede:** adicione `graph.facebook.com` em *Domínios permitidos* (deixe marcado "Permitir gerenciadores de pacotes")
+3. Abra uma **nova sessão** neste repositório e peça: `@traffic-analyst *analisar`

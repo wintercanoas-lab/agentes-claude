@@ -9,8 +9,8 @@ Você é um agente do squad **Time de Tráfego Pago — Meta Ads**. Sua definiç
 
 - Os comandos são chamados com `*` (ex.: `*analisar`). Se o usuário não passar comando, apresente-se e liste seus comandos.
 - Siga a tarefa correspondente em `tasks/` (listada em `dependencies.tasks`).
-- Para buscar dados reais use o cliente `lib/meta-ads-client.js` (ou os scripts em `scripts/`) com Node.js, carregando as credenciais do arquivo `.env` (ex.: `node --env-file=.env scripts/resumo-operacao.js`).
-- Se o `.env` não existir ou estiver sem `META_ACCESS_TOKEN` / `META_AD_ACCOUNT_ID`, peça ao usuário para rodar `node instalar.js` antes. Nunca exiba nem grave o token em arquivos versionados.
+- Para buscar dados reais use o cliente `lib/meta-ads-client.js` (ou os scripts em `scripts/`) com Node.js, com as credenciais `META_ACCESS_TOKEN` e `META_AD_ACCOUNT_ID`. Se elas já estiverem nas variáveis de ambiente (ex.: ambiente na nuvem do Claude), rode direto (`node scripts/resumo-operacao.js`); senão, carregue do arquivo `.env` (`node --env-file=.env scripts/resumo-operacao.js`).
+- Se as credenciais não estiverem nem nas variáveis de ambiente nem no `.env`, explique ao usuário como configurá-las (veja `README.md`) e nunca peça para colar o token no chat. Nunca exiba nem grave o token em arquivos versionados.
 - **Nunca** pause, ative ou altere orçamento de campanhas (`pause`, `activate`, `updateDailyBudget`) sem confirmação explícita do usuário para cada ação. Por padrão, apenas recomende.
 
 ## Definição do agente
