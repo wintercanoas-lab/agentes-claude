@@ -25,6 +25,14 @@ claude             # abre o Claude Code com os agentes
 
 Depois, dentro do Claude Code: `@traffic-analyst *analisar`
 
+### 🔒 Trava de segurança
+
+Os agentes **nunca alteram nada na sua conta de anúncios sem o seu "sim"**: criar, pausar, ativar ou mudar orçamento.
+1. Eles mostram o plano (o que muda, antes → depois, quanto passa a gastar) e perguntam **"Posso aplicar?"**.
+2. Só depois do seu "sim" eles aplicam, pelo `scripts/aplicar.js`.
+3. Mesmo assim, o Claude Code mostra um pedido de aprovação na tela (`.claude/hooks/trava-meta.js`). Se você não aprovar, nada acontece.
+4. O código que fala com a Meta (`lib/meta-ads-client.js`) também recusa qualquer alteração sem essa confirmação.
+
 O arquivo `.env` (com seu token) fica só na sua máquina e nunca é enviado ao GitHub.
 Guia completo: [LEIA-ME.md](LEIA-ME.md).
 
