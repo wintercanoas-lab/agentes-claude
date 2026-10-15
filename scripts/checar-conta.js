@@ -49,7 +49,7 @@ async function main() {
     add('PROBLEMA', 'Formato do ID da conta', `"${ACCOUNT}" deveria ser act_ seguido so de numeros (ex: act_123456).`);
   }
 
-  const [perms, conta, pixels, paginas, insta] = await Promise.all([
+  const [perms, conta, pixels, paginas, insta, minhasPaginas] = await Promise.all([
     get('/me/permissions'),
     get(`/${ACCOUNT}`, {
       fields: 'name,account_status,disable_reason,currency,timezone_name,amount_spent,spend_cap,funding_source_details,business{name}',
@@ -57,7 +57,11 @@ async function main() {
     get(`/${ACCOUNT}/adspixels`, { fields: 'name,last_fired_time,is_unavailable' }),
     get(`/${ACCOUNT}/promote_pages`, { fields: 'name' }),
     get(`/${ACCOUNT}/instagram_accounts`, { fields: 'username' }),
+    // promote_pages costuma vir vazio para usuarios do sistema mesmo quando o
+    // token pode anunciar com a pagina; por isso olhamos tambem as paginas do token.
+    get('/me/accounts', { fields: 'name,tasks,instagram_business_account{username}' }),
   ]);
+  const paginasDoToken = (minhasPaginas.data || []).filter((p) => p.tasks?.includes('ADVERTISE'));
 
   // Permissoes do token
   if (perms.erro) {
@@ -94,12 +98,17 @@ async function main() {
   // Pagina do Facebook
   if (paginas.erro) add('ATENCAO', 'Pagina do Facebook', `Nao consegui verificar: ${paginas.erro}`);
   else if (paginas.data?.length) add('OK', 'Pagina do Facebook', paginas.data.map((p) => p.name).join(', '));
-  else add('PROBLEMA', 'Pagina do Facebook', 'Nenhuma pagina liberada para anunciar nesta conta.');
+  else if (paginasDoToken.length) {
+    add('OK', 'Pagina do Facebook', `${paginasDoToken.map((p) => `${p.name} (ID ${p.id})`).join(', ')} — o token pode anunciar com ela`);
+  } else add('PROBLEMA', 'Pagina do Facebook', 'Nenhuma pagina liberada para anunciar nesta conta.');
 
   // Instagram
   if (insta.erro) add('ATENCAO', 'Instagram', `Nao consegui verificar: ${insta.erro}`);
   else if (insta.data?.length) add('OK', 'Instagram', insta.data.map((i) => '@' + i.username).join(', '));
-  else add('ATENCAO', 'Instagram', 'Nenhum Instagram ligado a esta conta. Os anuncios sairiam so com a pagina.');
+  else if (paginasDoToken.some((p) => p.instagram_business_account)) {
+    const contas = paginasDoToken.filter((p) => p.instagram_business_account);
+    add('OK', 'Instagram', contas.map((p) => `@${p.instagram_business_account.username} (via pagina ${p.name})`).join(', '));
+  } else add('ATENCAO', 'Instagram', 'Nenhum Instagram ligado a esta conta. Os anuncios sairiam so com a pagina.');
 
   // Pixel
   if (pixels.erro) {
