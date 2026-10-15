@@ -49,11 +49,16 @@ async function main() {
     add('PROBLEMA', 'Formato do ID da conta', `"${ACCOUNT}" deveria ser act_ seguido so de numeros (ex: act_123456).`);
   }
 
+  const camposConta = 'name,account_status,disable_reason,currency,timezone_name,amount_spent,spend_cap,funding_source_details';
+  const lerConta = async () => {
+    const r = await get(`/${ACCOUNT}`, { fields: `${camposConta},business{name}` });
+    // business{name} exige business_management; sem ela, le o resto da conta assim mesmo
+    if (r.erro && /business_management/.test(r.erro)) return { ...(await get(`/${ACCOUNT}`, { fields: camposConta })), semPermissaoBusiness: true };
+    return r;
+  };
   const [perms, conta, pixels, paginas, insta] = await Promise.all([
     get('/me/permissions'),
-    get(`/${ACCOUNT}`, {
-      fields: 'name,account_status,disable_reason,currency,timezone_name,amount_spent,spend_cap,funding_source_details,business{name}',
-    }),
+    lerConta(),
     get(`/${ACCOUNT}/adspixels`, { fields: 'name,last_fired_time,is_unavailable' }),
     get(`/${ACCOUNT}/promote_pages`, { fields: 'name' }),
     get(`/${ACCOUNT}/instagram_accounts`, { fields: 'username' }),
@@ -78,6 +83,7 @@ async function main() {
     add(nivel, 'Status da conta', `${conta.name}: ${texto}${motivo}`);
     add('INFO', 'Moeda e fuso', `${conta.currency} | ${conta.timezone_name}`);
     if (conta.business?.name) add('OK', 'Portfolio empresarial', conta.business.name);
+    else if (conta.semPermissaoBusiness) add('INFO', 'Portfolio empresarial', 'Nao verificado: o token nao tem business_management (opcional).');
     else add('ATENCAO', 'Portfolio empresarial', 'Conta nao esta ligada a um portfolio empresarial');
 
     const pagamento = conta.funding_source_details?.display_string;
