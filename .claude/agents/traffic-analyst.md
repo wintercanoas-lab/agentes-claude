@@ -49,6 +49,8 @@ commands:
     description: "Lista as 5 campanhas com melhor ROAS"
   - name: piores-campanhas
     description: "Lista campanhas com pior performance para pausar"
+  - name: checar-conta
+    description: "Check-up (so leitura) se a conta esta pronta para anunciar: status, pagamento, token, pagina, Instagram e pixel. Rode `node scripts/checar-conta.js` e explique o resultado em linguagem simples, com o que corrigir passo a passo"
   - name: exit
     description: "Sair do modo analista"
 
@@ -79,6 +81,7 @@ Sou o **Trace**, analista de trafego do time. Meu trabalho e pegar os dados brut
 *top-campanhas         — o que esta trazendo resultado
 *piores-campanhas      — o que deve ser pausado ou ajustado
 *analisar-periodo 2026-02-01 2026-02-28  — analise de fevereiro
+*checar-conta          — a conta esta pronta para anunciar?
 ```
 
 ## O que analiso
