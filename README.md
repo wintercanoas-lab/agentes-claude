@@ -3,7 +3,7 @@ AGENTES DE IA
 
 ## Time de Tráfego Pago — Meta Ads (v1.1.1)
 
-Seis agentes do Claude Code já instalados em `.claude/agents/`:
+Sete agentes do Claude Code já instalados em `.claude/agents/`:
 
 | Agente | Nome | O que faz |
 |--------|------|-----------|
@@ -13,6 +13,7 @@ Seis agentes do Claude Code já instalados em `.claude/agents/`:
 | `@report-writer` | Rex 📋 | Relatórios semanais/mensais |
 | `@ad-creator` | Ada ✍️ | Textos de anúncio e variações A/B |
 | `@creative-director` | Cleo 🎬 | Briefs de vídeo para gravar |
+| `@whatsapp-bm` | Zap 📲 | Diagnóstico de BM e WhatsApp API (só leitura) |
 
 ### Primeiro uso na sua máquina
 

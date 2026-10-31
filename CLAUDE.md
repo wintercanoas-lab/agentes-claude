@@ -1,6 +1,6 @@
 # Time de Tráfego Pago — Meta Ads
 
-Repositório com 6 agentes do Claude Code (`.claude/agents/`) para gerenciar anúncios no Meta Ads (Facebook/Instagram). Responda sempre em português do Brasil.
+Repositório com 7 agentes do Claude Code (`.claude/agents/`) para gerenciar anúncios no Meta Ads (Facebook/Instagram). Responda sempre em português do Brasil.
 
 ## 🔒 Trava de segurança (obrigatória)
 

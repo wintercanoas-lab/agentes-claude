@@ -19,6 +19,7 @@ agents:
     - budget-optimizer
     - report-writer
     - ad-creator
+    - whatsapp-bm
 
 tasks:
   - analyze-campaigns
